@@ -6,6 +6,7 @@ import org.apache.http.Header;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.message.BasicHeader;
 import org.elasticsearch.client.RestClient;
 import org.slf4j.Logger;
@@ -13,8 +14,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
-import java.util.Properties;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+
 
 public class LogRestImp implements LogRest {
     private static RestClient restClient = null;
@@ -42,10 +44,15 @@ public class LogRestImp implements LogRest {
         }
     }
 
+    /**
+     *
+     * @return Index created successfully or not
+     */
     @Override
     public boolean createIndex() {
         try {
-            if (restClient.performRequest("PUT", "/" + indexName, header)
+            if (restClient.performRequest("PUT", "/" + indexName, new HashMap<>(),
+                    EntityBuilder.create().setBinary(MapperUtility.getLogPropertiesForCreate().getBytes()).build(), header)
                     .getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 return true;
             }
@@ -55,41 +62,64 @@ public class LogRestImp implements LogRest {
         return false;
     }
 
+    /**
+     *
+     * @param id id of the log record
+     * @return Log entity with that id, if it is exists
+     */
     @Override
-    public Log getLog(final long id) {
+    public Log getLog(final String id) {
         try {
-            return MapperUtility.readJsonAsObjectStream(restClient.performRequest("GET",
+            Log l = MapperUtility.readLogJsonAsObjectStream(restClient.performRequest("GET",
                     endPoint + id, header).getEntity().getContent());
+            System.out.println(l);
+            return l;
         } catch (final IOException e) {
             logger.error(e.getMessage());
         }
         return null;
     }
 
+    /**
+     *
+     * @return All Log entity in that index
+     */
     @Override
     public List<Log> getLogs() {
         try {
-            return MapperUtility.readJsonStream(restClient.performRequest("PUT", "/" + indexName, header)
-                    .getEntity().getContent());
+            return MapperUtility.readLogJsonStream(restClient.performRequest("GET",
+                    "/" + indexName + "/" + "_search?pretty=true&q=*:*", header).getEntity().getContent());
         } catch (final IOException e) {
             logger.error(e.getMessage());
         }
         return null;
     }
 
+    /**
+     *
+     * @param log Log entity for add
+     * @return Log add was successfully or not
+     */
     @Override
     public boolean addLog(final Log log) {
         try {
-            restClient.performRequest("PUT", endPoint + log.getId(), header);
-            // TODO:
+            return restClient.performRequest("POST", endPoint, new HashMap<String, String>(),
+                    EntityBuilder.create().setBinary(MapperUtility.writeJsonStream(log)
+                            .getBytes(StandardCharsets.UTF_8)).build(), header)
+                    .getStatusLine().getStatusCode() == HttpStatus.SC_CREATED;
         } catch (final IOException e) {
             logger.error(e.getMessage());
         }
         return false;
     }
 
+    /**
+     *
+     * @param id id of Log what it has to remove
+     * @return Document removed successfully or not
+     */
     @Override
-    public boolean removeLog(final long id) {
+    public boolean removeLog(final String id) {
         try {
             return restClient.performRequest("DELETE", endPoint + id, header).getStatusLine()
                     .getStatusCode() == HttpStatus.SC_OK;
@@ -97,5 +127,30 @@ public class LogRestImp implements LogRest {
             logger.error(e.getMessage());
         }
         return false;
+    }
+
+    /**
+     *
+     * @return Index removed successfully or not
+     */
+    @Override
+    public boolean removeIndex() {
+        try {
+            return restClient.performRequest("DELETE", "/" + indexName, header).getStatusLine()
+                    .getStatusCode() == HttpStatus.SC_OK;
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param filters
+     * @return
+     */
+    @Override
+    public List<Log> searchLog(String filters) {
+        return null;
     }
 }

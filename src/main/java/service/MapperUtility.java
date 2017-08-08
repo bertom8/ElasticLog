@@ -1,40 +1,76 @@
 package service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import model.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
-public class MapperUtility {
+class MapperUtility {
 
-    private static final Gson gson = new GsonBuilder().create();
+    public static final SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS",
+            Locale.ENGLISH);
+    private static final Gson gson = new GsonBuilder().setDateFormat(dateformat.toPattern()).create();
 
-    public static List<Log> readJsonStream(final InputStream in) throws IOException {
-        return gson.fromJson(new InputStreamReader(in, StandardCharsets.UTF_8),
-                new TypeToken<List<Log>>() {
-                }.getType());
+    static List<Log> readLogJsonStream(final InputStream in) throws IOException {
+        List<Log> list = new ArrayList<>();
+        JsonReader reader = new JsonReader(new InputStreamReader(in));
+        reader.beginObject();
+        while(!"hits".equals(reader.nextName())) {
+            reader.skipValue();
+        }
+        reader.beginObject();
+        while (!"hits".equals(reader.nextName())) {
+            reader.skipValue();
+        }
+        reader.beginArray();
+        while (reader.hasNext()) {
+            reader.beginObject();
+            list.add(readResponseForObject(reader));
+            reader.endObject();
+        }
+        return list;
     }
 
-    public static Log readJsonAsObjectStream(final InputStream in) throws IOException {
-        return gson.fromJson(new InputStreamReader(in, StandardCharsets.UTF_8),
-                new TypeToken<Log>() {
-                }.getType());
+    static Log readLogJsonAsObjectStream(final InputStream in) throws IOException {
+        JsonReader reader = new JsonReader(new InputStreamReader(in));
+        reader.beginObject();
+        return readResponseForObject(reader);
     }
 
-    public static Map writeJsonStream(final Log log) throws IOException {
-        return new ObjectMapper().convertValue(log, Map.class);
-        /*gson.toJsonTree(log, Log.class);
-        final String s = gson.toJson(log, Log.class);
-        return null;*/
+    private static Log readResponseForObject(JsonReader reader) throws IOException {
+        while(!"_source".equals(reader.nextName())) {
+            reader.skipValue();
+        }
+        return gson.fromJson(reader, new TypeToken<Log>() {}.getType());
     }
 
+    static String writeJsonStream(final Log log) throws IOException {
+        return gson.toJson(log, Log.class);
+    }
 
+    static String getLogPropertiesForCreate() {
+        return  "{" +
+                "\"mappings\" : {\n" +
+                "        \"log\" : {\n" +
+                "            \"properties\" : {\n" +
+                "                \"data\" : { \"type\" : \"text\" },\n" +
+                "                \"type\" : { \"type\" : \"text\" },\n" +
+                "                \"result\" : { \"type\" : \"text\" },\n" +
+                "                \"callstack\" : { \"type\" : \"text\" }\n" +
+
+               // "                \"serverID\" : { \"type\" : \"number\" }\n" +
+
+                "            }\n" +
+                "        }\n" +
+                "    }\n" +
+                "}";
+    }
 }

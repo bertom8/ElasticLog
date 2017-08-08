@@ -8,11 +8,15 @@ public interface LogRest {
 
     boolean createIndex();
 
-    Log getLog(long id);
+    Log getLog(String id);
 
     List<Log> getLogs();
 
     boolean addLog(Log log);
 
-    boolean removeLog(long id);
+    boolean removeLog(String id);
+
+    boolean removeIndex();
+
+    List<Log> searchLog(String filters);
 }
