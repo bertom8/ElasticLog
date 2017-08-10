@@ -6,13 +6,13 @@ import org.junit.Test;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class LogRestImpTest {
-    private LogRestImp logRest = new LogRestImp("serverlog-2017-08-03", "log");
+    private LogRest logRest = LogRestFactory.createLogRest(true);
 
     @Test
     public void createIndex() throws Exception {

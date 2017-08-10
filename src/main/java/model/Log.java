@@ -9,6 +9,7 @@ public class Log implements Serializable {
     private String type;
     private String result;
     private List<String> callStack;
+    private String serverId;
 
     public Log() {}
 
@@ -49,6 +50,21 @@ public class Log implements Serializable {
         this.callStack = callStack;
     }
 
+    public String getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(String serverId) {
+        this.serverId = serverId;
+    }
+
+    @Override
+    public String toString() {
+        return date.toString() + " " + serverId
+                + " " + type + " " + result + "\n"
+                + (callStack != null ? callStack.toString() : "");
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -69,7 +85,10 @@ public class Log implements Serializable {
         if (!result.equals(log.result)) {
             return false;
         }
-        return callStack != null ? callStack.equals(log.callStack) : log.callStack == null;
+        if (callStack != null ? !callStack.equals(log.callStack) : log.callStack != null) {
+            return false;
+        }
+        return serverId.equals(log.serverId);
     }
 
     @Override
@@ -78,13 +97,7 @@ public class Log implements Serializable {
         result1 = 31 * result1 + type.hashCode();
         result1 = 31 * result1 + result.hashCode();
         result1 = 31 * result1 + (callStack != null ? callStack.hashCode() : 0);
+        result1 = 31 * result1 + serverId.hashCode();
         return result1;
-    }
-
-    @Override
-    public String toString() {
-        return date.toString()
-                + " " + type + " " + result + "\n"
-                + (callStack!=null ? callStack.toString():"");
     }
 }

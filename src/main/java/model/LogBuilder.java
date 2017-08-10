@@ -26,6 +26,11 @@ public class LogBuilder {
         return this;
     }
 
+    public LogBuilder setServerId(String serverId) {
+        log.setServerId(serverId);
+        return this;
+    }
+
     public Log build() {
         return log;
     }

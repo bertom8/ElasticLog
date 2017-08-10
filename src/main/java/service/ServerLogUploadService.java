@@ -5,21 +5,24 @@ import model.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
+import java.math.BigInteger;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ServerLogUploadService {
-    private static LogRestImp imp = new LogRestImp("serverlog-2017-08-03", "log");
+    private static LogRest imp = LogRestFactory.createLogRest(true);
     private static Logger logger = LoggerFactory.getLogger(ServerLogUploadService.class);
 
     /**
-     *
      * @param pathToFile Path to the log file with escaped backslashes
      */
-    public static void upload(@NotNull String pathToFile) {
+    public static void uploadLocalFile(@NotNull String pathToFile) {
         if ("".equals(pathToFile)) {
             throw new IllegalArgumentException("Path is empty!");
         }
@@ -32,8 +35,49 @@ public class ServerLogUploadService {
         }
     }
 
+    public static void uploadRemoteFile(@NotNull String host, @NotNull int port, @NotNull String pathToFile) {
+        if (host.isEmpty()) {
+            logger.error("Host is empty");
+            throw new IllegalArgumentException("Host is empty!");
+        }
+        HttpsURLConnection urlConnection = null;
+        String localPathToFile = null;
+        try {
+            URL url;
+            if (pathToFile.isEmpty()) {
+                url = new URL(host + port);
+            } else {
+                url = new URL(host + port + File.pathSeparator + pathToFile);
+            }
+            urlConnection = (HttpsURLConnection) url.openConnection();
+            urlConnection.setDoInput(true);
+            urlConnection.setRequestMethod("GET");
+            urlConnection.setRequestProperty("Content-Type", "text/plain");
+            localPathToFile = writeToFile(urlConnection.getInputStream());
+            urlConnection.connect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+        }
+        assert localPathToFile != null;
+        uploadLocalFile(localPathToFile);
+        new File(localPathToFile).deleteOnExit();
+    }
+
+    private static String writeToFile(InputStream inputStream) throws FileNotFoundException, UnsupportedEncodingException {
+        String fileName = System.getProperty("user.dir")
+                + new BigInteger(60, new SecureRandom()).toString(32);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        PrintWriter writer = new PrintWriter(fileName, StandardCharsets.UTF_8.displayName());
+        reader.lines().forEach(writer::println);
+        writer.close();
+        return fileName;
+    }
+
     /**
-     *
      * @param reader
      * @throws IOException
      */
@@ -41,7 +85,7 @@ public class ServerLogUploadService {
         String line;
         Log log = null;
         List<String> callStack = null;
-        while ( (line = reader.readLine()) != null ) {
+        while ((line = reader.readLine()) != null) {
             // Log
             if (line.matches("\\d\\d\\d\\d\\-\\d\\d\\-\\d\\d\\ \\d\\d\\:\\d\\d\\:\\d\\d\\,\\d\\d\\d\\ .*")) {
                 if (log != null) {
@@ -70,6 +114,5 @@ public class ServerLogUploadService {
                 }
             }
         }
-
     }
 }

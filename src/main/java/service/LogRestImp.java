@@ -15,7 +15,9 @@ import org.slf4j.LoggerFactory;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Properties;
 
 
 public class LogRestImp implements LogRest {
@@ -26,7 +28,7 @@ public class LogRestImp implements LogRest {
 
     private final Logger logger = LoggerFactory.getLogger(LogRestImp.class);
 
-    public LogRestImp(@NotNull final String indexName, @NotNull final String typeName) {
+    protected LogRestImp(@NotNull final String indexName, @NotNull final String typeName) {
         this.indexName = indexName;
         this.endPoint = "/" + indexName + "/" + typeName + "/";
         getProperties();

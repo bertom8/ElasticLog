@@ -9,9 +9,10 @@ import model.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 class MapperUtility {
 
@@ -64,9 +65,9 @@ class MapperUtility {
                 "                \"data\" : { \"type\" : \"text\" },\n" +
                 "                \"type\" : { \"type\" : \"text\" },\n" +
                 "                \"result\" : { \"type\" : \"text\" },\n" +
-                "                \"callstack\" : { \"type\" : \"text\" }\n" +
+                "                \"callstack\" : { \"type\" : \"text\" },\n" +
 
-               // "                \"serverID\" : { \"type\" : \"number\" }\n" +
+                "                \"serverId\" : { \"type\" : \"integer\" }\n" +
 
                 "            }\n" +
                 "        }\n" +
