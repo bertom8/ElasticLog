@@ -21,10 +21,10 @@ class MapperUtility {
     private static final Gson gson = new GsonBuilder().setDateFormat(dateformat.toPattern()).create();
 
     static List<Log> readLogJsonStream(final InputStream in) throws IOException {
-        List<Log> list = new ArrayList<>();
-        JsonReader reader = new JsonReader(new InputStreamReader(in));
+        final List<Log> list = new ArrayList<>();
+        final JsonReader reader = new JsonReader(new InputStreamReader(in));
         reader.beginObject();
-        while(!"hits".equals(reader.nextName())) {
+        while (!"hits".equals(reader.nextName())) {
             reader.skipValue();
         }
         reader.beginObject();
@@ -41,16 +41,17 @@ class MapperUtility {
     }
 
     static Log readLogJsonAsObjectStream(final InputStream in) throws IOException {
-        JsonReader reader = new JsonReader(new InputStreamReader(in));
+        final JsonReader reader = new JsonReader(new InputStreamReader(in));
         reader.beginObject();
         return readResponseForObject(reader);
     }
 
-    private static Log readResponseForObject(JsonReader reader) throws IOException {
-        while(!"_source".equals(reader.nextName())) {
+    private static Log readResponseForObject(final JsonReader reader) throws IOException {
+        while (!"_source".equals(reader.nextName())) {
             reader.skipValue();
         }
-        return gson.fromJson(reader, new TypeToken<Log>() {}.getType());
+        return gson.fromJson(reader, new TypeToken<Log>() {
+        }.getType());
     }
 
     static String writeJsonStream(final Log log) throws IOException {
@@ -58,17 +59,16 @@ class MapperUtility {
     }
 
     static String getLogPropertiesForCreate() {
-        return  "{" +
+        return "{" +
                 "\"mappings\" : {\n" +
                 "        \"log\" : {\n" +
                 "            \"properties\" : {\n" +
-                "                \"data\" : { \"type\" : \"text\" },\n" +
+                "                \"date\" : { \"type\" : \"date\"," +
+                "                             \"format\": \"yyyy-MM-dd HH:mm:ss,SSS\" },\n" +
                 "                \"type\" : { \"type\" : \"text\" },\n" +
                 "                \"result\" : { \"type\" : \"text\" },\n" +
                 "                \"callstack\" : { \"type\" : \"text\" },\n" +
-
-                "                \"serverId\" : { \"type\" : \"integer\" }\n" +
-
+                "                \"serverId\" : { \"type\" : \"text\" }\n" +
                 "            }\n" +
                 "        }\n" +
                 "    }\n" +

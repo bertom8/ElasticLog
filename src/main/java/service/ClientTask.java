@@ -1,46 +1,55 @@
 package service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
-import java.math.BigInteger;
 import java.net.Socket;
-import java.security.SecureRandom;
+import java.util.Date;
 
 public class ClientTask implements Runnable {
     private final Socket clientSocket;
+    private String server;
+    private static final Logger logger = LoggerFactory.getLogger(ClientTask.class);
 
-    ClientTask(Socket clientSocket) {
+    ClientTask(final Socket clientSocket) {
         this.clientSocket = clientSocket;
     }
 
     @Override
     public void run() {
         try {
-            System.out.println("asd");
-            BufferedReader fromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            String path = new BigInteger(60, new SecureRandom()).toString(32);
-            final OutputStream toFile = new FileOutputStream(path);
-            System.out.println("987");
-            System.out.println("qwe");
-            int bytesRead;
-            String line;
-            try {
-                while ((line = fromClient.readLine()) != null) {
-                    System.out.println(line);
-                    //toFile.write(line.getBytes(StandardCharsets.UTF_8));
-                    //toFile.flush();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    toFile.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            if (clientSocket == null) {
+                logger.error("Socket was null");
+                throw new IllegalArgumentException("Socket was null");
             }
-            clientSocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            final BufferedReader fromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            getServer(fromClient);
+            final String path = "log-" + new Date().getTime();
+            String line;
+            try (PrintWriter toFile = new PrintWriter(new FileOutputStream(path))) {
+                while ((line = fromClient.readLine()) != null) {
+//                    System.out.println(line);
+                    toFile.println(line);
+                    toFile.flush();
+                }
+            } catch (final IOException e) {
+                logger.error(e.toString());
+            }
+            ServerLogUploadService.uploadLocalFile(path, server);
+            new File(path).delete();
+        } catch (final IOException e) {
+            logger.error(e.toString());
+        }
+    }
+
+    private void getServer(final BufferedReader reader) throws IOException {
+        server = reader.readLine();
+        if (server != null) {
+            if (!server.matches("(#log:server=)[\\w|\\d]+")) {
+                return;
+            }
+            server = server.substring(server.lastIndexOf("=") + 1);
         }
     }
 }

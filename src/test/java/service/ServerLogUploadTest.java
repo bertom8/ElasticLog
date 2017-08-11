@@ -9,7 +9,7 @@ public class ServerLogUploadTest {
     @Test
     public void upload() throws Exception {
         ServerLogUploadService.uploadLocalFile(
-                "C:\\Users\\bereczki\\Downloads\\logs\\wildfly\\standalone\\log\\server.log.2017-08-02");
+                "C:\\Users\\bereczki\\Downloads\\logs\\wildfly\\standalone\\log\\server.log.2017-08-02", null);
         assertTrue(true);
     }
 

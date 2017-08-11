@@ -47,7 +47,6 @@ public class LogRestImp implements LogRest {
     }
 
     /**
-     *
      * @return Index created successfully or not
      */
     @Override
@@ -65,14 +64,13 @@ public class LogRestImp implements LogRest {
     }
 
     /**
-     *
      * @param id id of the log record
      * @return Log entity with that id, if it is exists
      */
     @Override
     public Log getLog(final String id) {
         try {
-            Log l = MapperUtility.readLogJsonAsObjectStream(restClient.performRequest("GET",
+            final Log l = MapperUtility.readLogJsonAsObjectStream(restClient.performRequest("GET",
                     endPoint + id, header).getEntity().getContent());
             System.out.println(l);
             return l;
@@ -83,7 +81,6 @@ public class LogRestImp implements LogRest {
     }
 
     /**
-     *
      * @return All Log entity in that index
      */
     @Override
@@ -98,7 +95,6 @@ public class LogRestImp implements LogRest {
     }
 
     /**
-     *
      * @param log Log entity for add
      * @return Log add was successfully or not
      */
@@ -116,7 +112,6 @@ public class LogRestImp implements LogRest {
     }
 
     /**
-     *
      * @param id id of Log what it has to remove
      * @return Document removed successfully or not
      */
@@ -132,7 +127,6 @@ public class LogRestImp implements LogRest {
     }
 
     /**
-     *
      * @return Index removed successfully or not
      */
     @Override
@@ -140,19 +134,18 @@ public class LogRestImp implements LogRest {
         try {
             return restClient.performRequest("DELETE", "/" + indexName, header).getStatusLine()
                     .getStatusCode() == HttpStatus.SC_OK;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             logger.error(e.getMessage());
         }
         return false;
     }
 
     /**
-     *
      * @param filters
      * @return
      */
     @Override
-    public List<Log> searchLog(String filters) {
+    public List<Log> searchLog(final String filters) {
         return null;
     }
 }
