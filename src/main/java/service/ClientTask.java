@@ -2,6 +2,7 @@ package service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import service.Log.ServerLogUploadService;
 
 import java.io.*;
 import java.net.Socket;
@@ -36,10 +37,10 @@ public class ClientTask implements Runnable {
             } catch (final IOException e) {
                 logger.error(e.toString());
             }
-            ServerLogUploadService.uploadLocalFile(path, server);
+            new ServerLogUploadService().uploadLocalFile(path, server);
             new File(path).delete();
         } catch (final IOException e) {
-            logger.error(e.toString());
+            logger.error(e.toString(), e);
         }
     }
 

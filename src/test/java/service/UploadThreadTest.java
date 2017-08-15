@@ -13,10 +13,10 @@ public class UploadThreadTest {
     @Test
     public void run() throws Exception {
         UploadThread.createServer();
-        Socket socket = new Socket("localhost", 8999);
-        PrintWriter dataOutputStream = new PrintWriter(socket.getOutputStream());
-        BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\bereczki\\Downloads\\logs\\wildfly\\standalone\\log\\server.log.2017-08-02"));
-        DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+        final Socket socket = new Socket("localhost", 8999);
+        final PrintWriter dataOutputStream = new PrintWriter(socket.getOutputStream());
+        final BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\bereczki\\Downloads\\logs\\wildfly\\standalone\\log\\server.log.2017-08-02"));
+        final DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
         reader.lines().forEach(line -> {
             dataOutputStream.println(line);
             dataOutputStream.flush();

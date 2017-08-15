@@ -1,4 +1,4 @@
-package service;
+package service.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,13 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-class MapperUtility {
-
+public class LogUtility {
     public static final SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS",
             Locale.ENGLISH);
     private static final Gson gson = new GsonBuilder().setDateFormat(dateformat.toPattern()).create();
 
-    static List<Log> readLogJsonStream(final InputStream in) throws IOException {
+    public static List<Log> readLogJsonStream(final InputStream in) throws IOException {
         final List<Log> list = new ArrayList<>();
         final JsonReader reader = new JsonReader(new InputStreamReader(in));
         reader.beginObject();
@@ -40,7 +39,8 @@ class MapperUtility {
         return list;
     }
 
-    static Log readLogJsonAsObjectStream(final InputStream in) throws IOException {
+
+    public static Log readLogJsonAsObjectStream(final InputStream in) throws IOException {
         final JsonReader reader = new JsonReader(new InputStreamReader(in));
         reader.beginObject();
         return readResponseForObject(reader);
@@ -54,11 +54,21 @@ class MapperUtility {
         }.getType());
     }
 
-    static String writeJsonStream(final Log log) throws IOException {
+    public static String writeJsonStream(final Log log) {
         return gson.toJson(log, Log.class);
     }
 
-    static String getLogPropertiesForCreate() {
+    public static String writeJsonObjectList(final List<Log> list) {
+        final StringBuilder sb = new StringBuilder();
+        list.forEach(log -> {
+            sb.append("{ \"index\":{} }\n");
+            sb.append(writeJsonStream(log)).append("\n");
+        });
+        sb.append("\n");
+        return sb.toString();
+    }
+
+    public static String getLogPropertiesForCreate() {
         return "{" +
                 "\"mappings\" : {\n" +
                 "        \"log\" : {\n" +

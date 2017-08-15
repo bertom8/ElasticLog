@@ -1,4 +1,4 @@
-package service;
+package service.Log;
 
 import com.sun.istack.internal.NotNull;
 import model.Log;
@@ -20,15 +20,15 @@ import java.util.List;
 import java.util.Properties;
 
 
-public class LogRestImp implements LogRest {
+public class LogRestImpl implements LogRest {
     private static RestClient restClient = null;
     private final Header header = new BasicHeader(HttpHeaders.CONTENT_TYPE, "application/json");
     private final String endPoint;
     private final String indexName;
 
-    private final Logger logger = LoggerFactory.getLogger(LogRestImp.class);
+    private final Logger logger = LoggerFactory.getLogger(LogRestImpl.class);
 
-    protected LogRestImp(@NotNull final String indexName, @NotNull final String typeName) {
+    LogRestImpl(@NotNull final String indexName, @NotNull final String typeName) {
         this.indexName = indexName;
         this.endPoint = "/" + indexName + "/" + typeName + "/";
         getProperties();
@@ -42,7 +42,7 @@ public class LogRestImp implements LogRest {
                     new HttpHost(properties.getProperty("host"), Integer.valueOf(properties.getProperty("port")),
                             properties.getProperty("sheme"))).build();
         } catch (final IOException e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -53,12 +53,12 @@ public class LogRestImp implements LogRest {
     public boolean createIndex() {
         try {
             if (restClient.performRequest("PUT", "/" + indexName, new HashMap<>(),
-                    EntityBuilder.create().setBinary(MapperUtility.getLogPropertiesForCreate().getBytes()).build(), header)
+                    EntityBuilder.create().setBinary(LogUtility.getLogPropertiesForCreate().getBytes()).build(), header)
                     .getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 return true;
             }
         } catch (final IOException e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(), e);
         }
         return false;
     }
@@ -70,12 +70,12 @@ public class LogRestImp implements LogRest {
     @Override
     public Log getLog(final String id) {
         try {
-            final Log l = MapperUtility.readLogJsonAsObjectStream(restClient.performRequest("GET",
+            final Log l = LogUtility.readLogJsonAsObjectStream(restClient.performRequest("GET",
                     endPoint + id, header).getEntity().getContent());
             System.out.println(l);
             return l;
         } catch (final IOException e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(), e);
         }
         return null;
     }
@@ -86,10 +86,10 @@ public class LogRestImp implements LogRest {
     @Override
     public List<Log> getLogs() {
         try {
-            return MapperUtility.readLogJsonStream(restClient.performRequest("GET",
+            return LogUtility.readLogJsonStream(restClient.performRequest("GET",
                     "/" + indexName + "/" + "_search?pretty=true&q=*:*", header).getEntity().getContent());
         } catch (final IOException e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(), e);
         }
         return null;
     }
@@ -102,11 +102,24 @@ public class LogRestImp implements LogRest {
     public boolean addLog(final Log log) {
         try {
             return restClient.performRequest("POST", endPoint, new HashMap<String, String>(),
-                    EntityBuilder.create().setBinary(MapperUtility.writeJsonStream(log)
+                    EntityBuilder.create().setBinary(LogUtility.writeJsonStream(log)
                             .getBytes(StandardCharsets.UTF_8)).build(), header)
                     .getStatusLine().getStatusCode() == HttpStatus.SC_CREATED;
         } catch (final IOException e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(), e);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addLogs(final List<Log> logs) {
+        System.out.println(LogUtility.writeJsonObjectList(logs));
+        try {
+            return restClient.performRequest("POST", endPoint + "_bulk", new HashMap<>(),
+                    EntityBuilder.create().setSerializable(LogUtility.writeJsonObjectList(logs)).build(), header)
+                    .getStatusLine().getStatusCode() == HttpStatus.SC_CREATED;
+        } catch (final IOException e) {
+            logger.error(e.toString(), e);
         }
         return false;
     }
@@ -121,7 +134,7 @@ public class LogRestImp implements LogRest {
             return restClient.performRequest("DELETE", endPoint + id, header).getStatusLine()
                     .getStatusCode() == HttpStatus.SC_OK;
         } catch (final IOException e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(), e);
         }
         return false;
     }
@@ -135,14 +148,14 @@ public class LogRestImp implements LogRest {
             return restClient.performRequest("DELETE", "/" + indexName, header).getStatusLine()
                     .getStatusCode() == HttpStatus.SC_OK;
         } catch (final IOException e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(), e);
         }
         return false;
     }
 
     /**
-     * @param filters
-     * @return
+     * @param filters filters to search
+     * @return Founded logs
      */
     @Override
     public List<Log> searchLog(final String filters) {

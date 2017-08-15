@@ -1,13 +1,13 @@
-package service;
+package service.Log;
 
 import model.Log;
 
 import java.util.List;
 
 public class LogRestFactory {
-    public static LogRest createLogRest(boolean rest) {
+    public static LogRest createLogRest(final boolean rest) {
         if (rest) {
-            return new LogRestImp("serverlog", "log");
+            return new LogRestImpl("serverlog", "log");
         } else {
             return new LogRest() {
                 @Override
@@ -16,7 +16,7 @@ public class LogRestFactory {
                 }
 
                 @Override
-                public Log getLog(String id) {
+                public Log getLog(final String id) {
                     return null;
                 }
 
@@ -26,12 +26,17 @@ public class LogRestFactory {
                 }
 
                 @Override
-                public boolean addLog(Log log) {
+                public boolean addLog(final Log log) {
                     return false;
                 }
 
                 @Override
-                public boolean removeLog(String id) {
+                public boolean addLogs(final List<Log> logs) {
+                    return false;
+                }
+
+                @Override
+                public boolean removeLog(final String id) {
                     return false;
                 }
 
@@ -41,7 +46,7 @@ public class LogRestFactory {
                 }
 
                 @Override
-                public List<Log> searchLog(String filters) {
+                public List<Log> searchLog(final String filters) {
                     return null;
                 }
             };

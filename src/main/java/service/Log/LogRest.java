@@ -1,4 +1,4 @@
-package service;
+package service.Log;
 
 import model.Log;
 
@@ -13,6 +13,8 @@ public interface LogRest {
     List<Log> getLogs();
 
     boolean addLog(Log log);
+
+    boolean addLogs(List<Log> logs);
 
     boolean removeLog(String id);
 

@@ -1,4 +1,4 @@
-package service;
+package service.Log;
 
 import com.sun.istack.internal.NotNull;
 import model.Log;
@@ -16,13 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServerLogUploadService {
-    private static final LogRest imp = LogRestFactory.createLogRest(true);
+    private final LogRest imp = LogRestFactory.createLogRest(true);
     private static final Logger logger = LoggerFactory.getLogger(ServerLogUploadService.class);
 
     /**
      * @param pathToFile Path to the log file with escaped backslashes
      */
-    public static void uploadLocalFile(@NotNull final String pathToFile, @NotNull final String serverName) {
+    public void uploadLocalFile(@NotNull final String pathToFile, @NotNull final String serverName) {
         if ("".equals(pathToFile)) {
             logger.error("Path is empty");
             throw new IllegalArgumentException("Path is empty!");
@@ -34,19 +34,19 @@ public class ServerLogUploadService {
             read(reader, serverName);
             System.out.println("Upload finished!");
         } catch (final IOException e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(), e);
         } finally {
             try {
                 if (reader != null) {
                     reader.close();
                 }
             } catch (final IOException e) {
-                logger.error(e.toString());
+                logger.error(e.toString(), e);
             }
         }
     }
 
-    public static void uploadRemoteFile(@NotNull final String host, @NotNull final int port, @NotNull final String pathToFile) {
+    public void uploadRemoteFile(@NotNull final String host, @NotNull final int port, @NotNull final String pathToFile) {
         if (host.isEmpty()) {
             logger.error("Host is empty");
             throw new IllegalArgumentException("Host is empty!");
@@ -65,9 +65,10 @@ public class ServerLogUploadService {
             urlConnection.setRequestMethod("GET");
             urlConnection.setRequestProperty("Content-Type", "text/plain");
             localPathToFile = writeToFile(urlConnection.getInputStream());
+            urlConnection.getInputStream().close();
             urlConnection.connect();
         } catch (final IOException e) {
-            logger.error(e.toString());
+            logger.error(e.toString(), e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -91,11 +92,13 @@ public class ServerLogUploadService {
     }
 
     /**
-     * @param reader
-     * @throws IOException
+     * @param reader BufferedReader to read File
+     * @throws IOException It can throw it while reading
      */
-    private static void read(final BufferedReader reader, final String server) throws IOException {
+    private void read(final BufferedReader reader, final String server) throws IOException {
         String line;
+        //For bulk upload:
+        //final List<Log> logList = new ArrayList<>();
         Log log = null;
         List<String> callStack = null;
         while ((line = reader.readLine()) != null) {
@@ -103,30 +106,33 @@ public class ServerLogUploadService {
             if (line.matches("\\d\\d\\d\\d\\-\\d\\d\\-\\d\\d\\ \\d\\d\\:\\d\\d\\:\\d\\d\\,\\d\\d\\d\\ .*")) {
                 if (log != null) {
                     log.setCallStack(callStack);
+                    // For bulk upload, next line should be removed:
+                    // logList.add(log);
                     imp.addLog(log);
-//                    System.out.println(log); // remove this
                 }
                 log = new Log();
                 callStack = new ArrayList<>();
                 final String[] splitedLine = line.split(" ");
                 log.setServerId(server);
                 try {
-                    log.setDate(MapperUtility.dateformat.parse(splitedLine[0] + " " + splitedLine[1]));
+                    log.setDate(LogUtility.dateformat.parse(splitedLine[0] + " " + splitedLine[1]));
                 } catch (final ParseException e) {
-                    logger.error(e.getMessage());
+                    logger.error(e.getMessage(), e);
                 }
                 log.setType(splitedLine[2]);
                 final StringBuilder result = new StringBuilder();
                 for (int i = 3; i < splitedLine.length; i++) {
                     result.append(" ").append(splitedLine[i]);
                 }
-                log.setResult(result.toString());
+                log.setResult(result.toString().trim());
             } else { // callStack item
                 if (!line.isEmpty()) {
                     assert callStack != null;
-                    callStack.add(line + "\n");
+                    callStack.add(line.trim() + "\n");
                 }
             }
         }
+        //For bulk upload:
+        // imp.addLogs(logList);
     }
 }
