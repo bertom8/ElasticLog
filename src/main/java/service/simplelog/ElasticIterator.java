@@ -1,4 +1,4 @@
-package service.SimpleLog;
+package service.simplelog;
 
 import model.SimpleLogItem;
 import org.slf4j.Logger;

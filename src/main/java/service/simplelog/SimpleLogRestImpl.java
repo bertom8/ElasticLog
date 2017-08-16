@@ -1,4 +1,4 @@
-package service.SimpleLog;
+package service.simplelog;
 
 import com.sun.istack.internal.NotNull;
 import model.Log;
@@ -49,6 +49,10 @@ public class SimpleLogRestImpl implements SimpleLogRest {
         }
     }
 
+    /**
+     * @param id Id of the wanted Log
+     * @return Founded Log or null
+     */
     @Override
     public SimpleLog getLog(final String id) {
         try (InputStream inputStream = restClient.performRequest("GET",
@@ -60,6 +64,11 @@ public class SimpleLogRestImpl implements SimpleLogRest {
         return null;
     }
 
+    /**
+     * @param documentPerScroll How many document there be in one scroll page. 0 < documentPerScroll < 10000
+     * @param generatedScrollId Id of Scroll
+     * @return Iterator to get all logs
+     */
     @Override
     public Iterator<SimpleLogItem> getLogs(final int documentPerScroll, final StringBuilder generatedScrollId) {
         if (documentPerScroll > 10000 || documentPerScroll < 1) {
@@ -69,6 +78,7 @@ public class SimpleLogRestImpl implements SimpleLogRest {
                 endPoint + "_search?scroll=20m", new HashMap<>(),
                 EntityBuilder.create().setBinary(SimpleLogUtility.getSearchJSON(documentPerScroll).getBytes()).build(),
                 header).getEntity().getContent()) {
+
             List<SimpleLogItem> list = SimpleLogUtility.readSimpleLogJsonStream(stream, generatedScrollId);
             return new ElasticIterator(this, list, generatedScrollId.toString());
         } catch (final IOException e) {
@@ -81,7 +91,8 @@ public class SimpleLogRestImpl implements SimpleLogRest {
     public boolean createIndex() {
         try {
             if (restClient.performRequest("PUT", "/" + indexName, new HashMap<>(),
-                    EntityBuilder.create().setBinary(SimpleLogUtility.getSimpleLogProperiesForCreate().getBytes()).build(),
+                    EntityBuilder.create().setBinary(SimpleLogUtility.getSimpleLogProperiesForCreate().getBytes())
+                            .build(),
                     header)
                     .getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 return true;
@@ -92,6 +103,10 @@ public class SimpleLogRestImpl implements SimpleLogRest {
         return false;
     }
 
+    /**
+     * @param log SimpleLog entity for add to ElasticSearch
+     * @return Was this successfull
+     */
     @Override
     public boolean addLog(final SimpleLog log) {
         try {
@@ -105,10 +120,28 @@ public class SimpleLogRestImpl implements SimpleLogRest {
     }
 
     @Override
-    public boolean changeToLog(final String id, final Log log) {
-        //TODO: implement this
+    public boolean addLogs(List<SimpleLog> logs) {
         try {
-            return restClient.performRequest("POST", endPoint + id + "/_update?pretty", new HashMap<>(),
+            return restClient.performRequest("POST", endPoint + "_bulk", new HashMap<>(),
+                    EntityBuilder.create().setBinary(SimpleLogUtility.writeJsonObjectList(logs).getBytes()).build(),
+                    header)
+                    .getStatusLine().getStatusCode() == HttpStatus.SC_CREATED;
+        } catch (final IOException e) {
+            logger.error(e.toString(), e);
+        }
+        return false;
+    }
+
+    /**
+     * @param id  id of log for update
+     * @param log Log entity for update
+     * @return Was this successfull
+     */
+    @Override
+    public boolean changeToLog(final String id, final Log log) {
+        try {
+            return restClient.performRequest("POST", endPoint + id + "/_update?pretty",
+                    new HashMap<>(),
                     EntityBuilder.create().setBinary(SimpleLogUtility.writeJsonStreamForUpdate(log).getBytes()).build(),
                     header)
                     .getStatusLine().getStatusCode() == HttpStatus.SC_OK;
@@ -132,6 +165,10 @@ public class SimpleLogRestImpl implements SimpleLogRest {
         return false;
     }
 
+    /**
+     * @param id Id of document
+     * @return Was this successfull
+     */
     @Override
     public boolean removeLog(final String id) {
         try {
@@ -154,13 +191,11 @@ public class SimpleLogRestImpl implements SimpleLogRest {
         return false;
     }
 
-    @Override
-    public List<SimpleLog> searchLog(final String filters) {
-        //TODO: implement this
-        return null;
-    }
-
-
+    /**
+     * @param scroll   Lifetime of scroll in minute
+     * @param scrollId Id of scroll
+     * @return InputStream that is contains response json
+     */
     @Override
     public InputStream scrolling(final int scroll, final String scrollId) {
         try {

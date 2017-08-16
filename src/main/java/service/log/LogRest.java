@@ -1,4 +1,4 @@
-package service.Log;
+package service.log;
 
 import model.Log;
 
@@ -19,6 +19,4 @@ public interface LogRest {
     boolean removeLog(String id);
 
     boolean removeIndex();
-
-    List<Log> searchLog(String filters);
 }

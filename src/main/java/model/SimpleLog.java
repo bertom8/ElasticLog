@@ -4,15 +4,15 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class SimpleLog implements Serializable {
-    private String text;
+    private String result;
     private Date date;
 
-    public String getText() {
-        return text;
+    public String getResult() {
+        return result;
     }
 
-    public void setText(final String text) {
-        this.text = text;
+    public void setResult(final String text) {
+        this.result = text;
     }
 
     public Date getDate() {
@@ -34,21 +34,18 @@ public class SimpleLog implements Serializable {
 
         final SimpleLog simpleLog = (SimpleLog) o;
 
-        if (!text.equals(simpleLog.text)) {
-            return false;
-        }
-        return date.equals(simpleLog.date);
+        return result.equals(simpleLog.result) && date.equals(simpleLog.date);
     }
 
     @Override
     public int hashCode() {
-        int result = text.hashCode();
-        result = 31 * result + date.hashCode();
-        return result;
+        int res = result.hashCode();
+        res = 31 * res + date.hashCode();
+        return res;
     }
 
     @Override
     public String toString() {
-        return date.toString() + " : " + text;
+        return date.toString() + " : " + result;
     }
 }

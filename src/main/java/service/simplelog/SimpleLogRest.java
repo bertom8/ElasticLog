@@ -1,4 +1,4 @@
-package service.SimpleLog;
+package service.simplelog;
 
 import model.Log;
 import model.SimpleLog;
@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public interface SimpleLogRest {
+
     SimpleLog getLog(String id);
 
     Iterator<SimpleLogItem> getLogs(int documentPerScroll, StringBuilder generatedScrollId);
@@ -17,6 +18,8 @@ public interface SimpleLogRest {
 
     boolean addLog(SimpleLog log);
 
+    boolean addLogs(List<SimpleLog> logs);
+
     boolean changeToLog(String id, Log log);
 
     boolean modifyIndexMappingforLog();
@@ -24,8 +27,6 @@ public interface SimpleLogRest {
     boolean removeLog(String id);
 
     boolean removeIndex();
-
-    List<SimpleLog> searchLog(String filters);
 
     InputStream scrolling(int scroll, String scrollId);
 }

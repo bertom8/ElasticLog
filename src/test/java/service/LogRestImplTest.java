@@ -2,8 +2,8 @@ package service;
 
 import model.Log;
 import org.junit.Test;
-import service.Log.LogRest;
-import service.Log.LogRestFactory;
+import service.log.LogRest;
+import service.log.LogRestFactory;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class LogRestImplTest {
-    private final LogRest logRest = LogRestFactory.createLogRest(true);
+    private final LogRest logRest = LogRestFactory.createLogRest("serverlog", "log");
 
     @Test
     public void createIndex() throws Exception {
@@ -47,11 +47,6 @@ public class LogRestImplTest {
     }
 
     @Test
-    public void addLogs() throws Exception {
-
-    }
-
-    @Test
     public void removeLog() throws Exception {
         assertTrue(logRest.removeLog("AV29SkKEjd91wETriiPC"));
     }
@@ -59,11 +54,6 @@ public class LogRestImplTest {
     @Test
     public void removeIndex() throws Exception {
         assertTrue(logRest.removeIndex());
-    }
-
-    @Test
-    public void searchLog() throws Exception {
-
     }
 
 }

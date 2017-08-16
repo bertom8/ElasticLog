@@ -1,4 +1,4 @@
-package service.Log;
+package service.log;
 
 import com.sun.istack.internal.NotNull;
 import model.Log;
@@ -114,7 +114,6 @@ public class LogRestImpl implements LogRest {
 
     @Override
     public boolean addLogs(final List<Log> logs) {
-        System.out.println(LogUtility.writeJsonObjectList(logs));
         try {
             return restClient.performRequest("POST", endPoint + "_bulk", new HashMap<>(),
                     EntityBuilder.create().setSerializable(LogUtility.writeJsonObjectList(logs)).build(), header)
@@ -152,15 +151,5 @@ public class LogRestImpl implements LogRest {
             logger.error(e.getMessage(), e);
         }
         return false;
-    }
-
-    /**
-     * @param filters filters to search
-     * @return Founded logs
-     */
-    @Override
-    public List<Log> searchLog(final String filters) {
-        //TODO: implement this
-        return null;
     }
 }

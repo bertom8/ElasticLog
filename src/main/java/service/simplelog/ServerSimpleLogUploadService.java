@@ -1,4 +1,4 @@
-package service.SimpleLog;
+package service.simplelog;
 
 import com.sun.istack.internal.NotNull;
 import model.SimpleLog;
@@ -12,9 +12,13 @@ import java.util.Date;
 public class ServerSimpleLogUploadService {
     private static final Logger logger = LoggerFactory.getLogger(ServerSimpleLogUploadService.class);
 
-    private final SimpleLogRest imp = SimpleLogFactory.createLogRest(true);
+    private final SimpleLogRest imp;
 
-    public void uploadLocalFile(@NotNull final String pathToFile, @NotNull final String serverName) {
+    public ServerSimpleLogUploadService(String indexName, String typeName) {
+        imp = SimpleLogFactory.createLogRest(indexName, typeName);
+    }
+
+    public void uploadLocalFile(@NotNull final String pathToFile) {
         if ("".equals(pathToFile)) {
             logger.error("Path is empty");
             throw new IllegalArgumentException("Path is empty!");
@@ -23,7 +27,7 @@ public class ServerSimpleLogUploadService {
         try {
             reader = new BufferedReader(new InputStreamReader(
                     new FileInputStream(new File(pathToFile)), StandardCharsets.UTF_8));
-            read(reader, serverName);
+            read(reader);
             System.out.println("Upload finished!");
         } catch (final IOException e) {
             logger.error(e.getMessage(), e);
@@ -38,19 +42,13 @@ public class ServerSimpleLogUploadService {
         }
     }
 
-    private void read(final BufferedReader reader, final String serverName) throws IOException {
+    private void read(final BufferedReader reader) throws IOException {
         String line;
-        //final List<SimpleLog> logList = new ArrayList<>();
         SimpleLog log = null;
-        // final List<String> callStack = null;
-        int i = 0;
         while ((line = reader.readLine()) != null) {
-            System.out.println(i + ":  " + line);
-            i++;
-            // Log
             log = new SimpleLog();
             if (!line.isEmpty()) {
-                log.setText(line);
+                log.setResult(line);
                 log.setDate(new Date());
                 imp.addLog(log);
             }

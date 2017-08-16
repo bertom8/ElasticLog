@@ -1,4 +1,4 @@
-package service.Log;
+package service.log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,12 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class LogUtility {
-    public static final SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS",
+class LogUtility {
+    static final SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS",
             Locale.ENGLISH);
     private static final Gson gson = new GsonBuilder().setDateFormat(dateformat.toPattern()).create();
 
-    public static List<Log> readLogJsonStream(final InputStream in) throws IOException {
+    static List<Log> readLogJsonStream(final InputStream in) throws IOException {
         final List<Log> list = new ArrayList<>();
         final JsonReader reader = new JsonReader(new InputStreamReader(in));
         reader.beginObject();
@@ -40,7 +40,7 @@ public class LogUtility {
     }
 
 
-    public static Log readLogJsonAsObjectStream(final InputStream in) throws IOException {
+    static Log readLogJsonAsObjectStream(final InputStream in) throws IOException {
         final JsonReader reader = new JsonReader(new InputStreamReader(in));
         reader.beginObject();
         return readResponseForObject(reader);
@@ -54,11 +54,11 @@ public class LogUtility {
         }.getType());
     }
 
-    public static String writeJsonStream(final Log log) {
+    static String writeJsonStream(final Log log) {
         return gson.toJson(log, Log.class);
     }
 
-    public static String writeJsonObjectList(final List<Log> list) {
+    static String writeJsonObjectList(final List<Log> list) {
         final StringBuilder sb = new StringBuilder();
         list.forEach(log -> {
             sb.append("{ \"index\":{} }\n");
@@ -68,7 +68,7 @@ public class LogUtility {
         return sb.toString();
     }
 
-    public static String getLogPropertiesForCreate() {
+    static String getLogPropertiesForCreate() {
         return "{" +
                 "\"mappings\" : {\n" +
                 "        \"log\" : {\n" +

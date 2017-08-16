@@ -1,4 +1,4 @@
-package service.Log;
+package service.log;
 
 import com.sun.istack.internal.NotNull;
 import model.Log;
@@ -16,13 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServerLogUploadService {
-    private final LogRest imp = LogRestFactory.createLogRest(true);
+    private final LogRest imp;
     private static final Logger logger = LoggerFactory.getLogger(ServerLogUploadService.class);
+
+    public ServerLogUploadService(String indexName, String typeName) {
+        imp = LogRestFactory.createLogRest(indexName, typeName);
+    }
 
     /**
      * @param pathToFile Path to the log file with escaped backslashes
      */
-    public void uploadLocalFile(@NotNull final String pathToFile, @NotNull final String serverName) {
+    public void uploadLocalFile(@NotNull final String pathToFile) {
         if ("".equals(pathToFile)) {
             logger.error("Path is empty");
             throw new IllegalArgumentException("Path is empty!");
@@ -31,7 +35,7 @@ public class ServerLogUploadService {
         try {
             reader = new BufferedReader(new InputStreamReader(
                     new FileInputStream(new File(pathToFile)), StandardCharsets.UTF_8));
-            read(reader, serverName);
+            read(reader);
             System.out.println("Upload finished!");
         } catch (final IOException e) {
             logger.error(e.getMessage(), e);
@@ -46,7 +50,8 @@ public class ServerLogUploadService {
         }
     }
 
-    public void uploadRemoteFile(@NotNull final String host, @NotNull final int port, @NotNull final String pathToFile) {
+    public void uploadRemoteFile(@NotNull final String host, @NotNull final int port,
+                                 @NotNull final String pathToFile) {
         if (host.isEmpty()) {
             logger.error("Host is empty");
             throw new IllegalArgumentException("Host is empty!");
@@ -75,8 +80,7 @@ public class ServerLogUploadService {
             }
         }
         assert localPathToFile != null;
-        // TODO: correct servername
-        uploadLocalFile(localPathToFile, null);
+        uploadLocalFile(localPathToFile);
         new File(localPathToFile).deleteOnExit();
     }
 
@@ -95,10 +99,10 @@ public class ServerLogUploadService {
      * @param reader BufferedReader to read File
      * @throws IOException It can throw it while reading
      */
-    private void read(final BufferedReader reader, final String server) throws IOException {
+    private void read(final BufferedReader reader) throws IOException {
         String line;
-        //For bulk upload:
-        //final List<Log> logList = new ArrayList<>();
+        // For bulk upload:
+        // final List<Log> logList = new ArrayList<>();
         Log log = null;
         List<String> callStack = null;
         while ((line = reader.readLine()) != null) {
@@ -113,7 +117,6 @@ public class ServerLogUploadService {
                 log = new Log();
                 callStack = new ArrayList<>();
                 final String[] splitedLine = line.split(" ");
-                log.setServerId(server);
                 try {
                     log.setDate(LogUtility.dateformat.parse(splitedLine[0] + " " + splitedLine[1]));
                 } catch (final ParseException e) {
@@ -132,7 +135,7 @@ public class ServerLogUploadService {
                 }
             }
         }
-        //For bulk upload:
+        // For bulk upload:
         // imp.addLogs(logList);
     }
 }

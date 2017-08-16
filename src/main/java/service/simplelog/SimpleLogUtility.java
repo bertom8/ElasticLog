@@ -1,4 +1,4 @@
-package service.SimpleLog;
+package service.simplelog;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,7 +21,6 @@ class SimpleLogUtility {
             Locale.ENGLISH);
     private static final Gson gson = new GsonBuilder().setDateFormat(dateformat.toPattern()).create();
 
-
     static List<SimpleLogItem> readSimpleLogJsonStream(final InputStream in) throws IOException {
         final List<SimpleLogItem> list = new ArrayList<>();
         final JsonReader reader = new JsonReader(new InputStreamReader(in));
@@ -42,8 +41,8 @@ class SimpleLogUtility {
         return list;
     }
 
-
-    static List<SimpleLogItem> readSimpleLogJsonStream(final InputStream in, final StringBuilder scrollId) throws IOException {
+    static List<SimpleLogItem> readSimpleLogJsonStream(final InputStream in, final StringBuilder scrollId)
+            throws IOException {
         final List<SimpleLogItem> list = new ArrayList<>();
         final JsonReader reader = new JsonReader(new InputStreamReader(in));
         reader.beginObject();
@@ -68,6 +67,11 @@ class SimpleLogUtility {
         return list;
     }
 
+    /**
+     * @param reader JsonReader
+     * @return SimpleLogItem entity
+     * @throws IOException Exception during read
+     */
     private static SimpleLogItem readResponseForSimpleLogObject(final JsonReader reader) throws IOException {
         final SimpleLogItem item = new SimpleLogItem();
         //ID
@@ -98,10 +102,34 @@ class SimpleLogUtility {
         return readResponseForSimpleLogObject(reader);
     }
 
+    /**
+     * @param log SimpleLog entity
+     * @return Json string of log entity
+     */
     static String writeJsonStream(final SimpleLog log) {
         return gson.toJson(log, SimpleLog.class);
     }
 
+    /**
+     * @param list SimpleLog list
+     * @return Json string that contains that list
+     */
+    static String writeJsonObjectList(final List<SimpleLog> list) {
+        final StringBuilder sb = new StringBuilder();
+        list.forEach(log -> {
+            sb.append("{ \"index\":{} }\n");
+            sb.append(writeJsonStream(log)).append("\n");
+        });
+        sb.append("\n");
+        return sb.toString();
+    }
+
+    /**
+     * POST /indexname/typename/id/_update?pretty
+     *
+     * @param log Log entity for updating
+     * @return Json string for document update
+     */
     static String writeJsonStreamForUpdate(final Log log) {
         return "{\n" +
                 "\"doc\" : " +
@@ -109,12 +137,15 @@ class SimpleLogUtility {
                 "}";
     }
 
+    /**
+     * @return Json string for create SimpleLog index
+     */
     static String getSimpleLogProperiesForCreate() {
         return "{" +
                 "\"mappings\" : {\n" +
                 "        \"log\" : {\n" +
                 "            \"properties\" : {\n" +
-                "                \"text\" : { \"type\" : \"text\" },\n" +
+                "                \"result\" : { \"type\" : \"text\" },\n" +
                 "                \"date\" : { \"type\" : \"date\"," +
                 "                             \"format\": \"yyyy-MM-dd HH:mm:ss,SSS\" }\n" +
                 "            }\n" +
@@ -123,6 +154,13 @@ class SimpleLogUtility {
                 "}";
     }
 
+    /**
+     * POST /_search/scroll
+     *
+     * @param min Lifetime of scroll in minute
+     * @param id  Id of scroll
+     * @return Json string to get a scroll
+     */
     static String getScrollJSON(final int min, final String id) {
         return "{\n" +
                 "    \"scroll\" : \"" + min + "m\", \n" +

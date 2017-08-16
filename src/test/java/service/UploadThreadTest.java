@@ -1,6 +1,7 @@
 package service;
 
 import org.junit.Test;
+import service.proxy.UploadThread;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
