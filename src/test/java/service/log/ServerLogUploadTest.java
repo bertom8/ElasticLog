@@ -1,7 +1,6 @@
-package service;
+package service.log;
 
 import org.junit.Test;
-import service.log.ServerLogUploadService;
 
 import static org.junit.Assert.assertTrue;
 

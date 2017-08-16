@@ -1,9 +1,7 @@
-package service;
+package service.log;
 
 import model.Log;
 import org.junit.Test;
-import service.log.LogRest;
-import service.log.LogRestFactory;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

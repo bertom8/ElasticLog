@@ -1,9 +1,7 @@
-package service;
+package service.simplelog;
 
 import model.SimpleLog;
 import org.junit.Test;
-import service.simplelog.SimpleLogFactory;
-import service.simplelog.SimpleLogRest;
 
 import java.util.Date;
 
