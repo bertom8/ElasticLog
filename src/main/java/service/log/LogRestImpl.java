@@ -72,9 +72,7 @@ public class LogRestImpl implements LogRest {
     public Log getLog(final String id) {
         try (InputStream stream = restClient.performRequest("GET",
                 endPoint + id, header).getEntity().getContent()) {
-            final Log l = LogUtility.readLogJsonAsObjectStream(stream);
-            System.out.println(l);
-            return l;
+            return LogUtility.readLogJsonAsObjectStream(stream);
         } catch (final IOException e) {
             logger.error(e.getMessage(), e);
         }

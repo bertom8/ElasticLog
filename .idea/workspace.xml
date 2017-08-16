@@ -6,30 +6,13 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbc0e7eb-9a5b-478b-a09d-c68b1da061c8" name="Default" comment="Iterator">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/service/JsonConstants.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/service/ClientTask.java" afterPath="$PROJECT_DIR$/src/main/java/service/proxy/ClientTask.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/service/Log/LogRest.java" afterPath="$PROJECT_DIR$/src/main/java/service/log/LogRest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/service/Log/LogRestFactory.java" afterPath="$PROJECT_DIR$/src/main/java/service/log/LogRestFactory.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/service/Log/LogRestImpl.java" afterPath="$PROJECT_DIR$/src/main/java/service/log/LogRestImpl.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/service/Log/LogUtility.java" afterPath="$PROJECT_DIR$/src/main/java/service/log/LogUtility.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/service/Log/ServerLogUploadService.java" afterPath="$PROJECT_DIR$/src/main/java/service/log/ServerLogUploadService.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/service/SimpleLog/ElasticIterator.java" afterPath="$PROJECT_DIR$/src/main/java/service/simplelog/ElasticIterator.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/service/SimpleLog/ServerSimpleLogUploadService.java" afterPath="$PROJECT_DIR$/src/main/java/service/simplelog/ServerSimpleLogUploadService.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/service/SimpleLog/SimpleLogConverter.java" afterPath="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogConverter.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/service/SimpleLog/SimpleLogFactory.java" afterPath="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogFactory.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/service/SimpleLog/SimpleLogRest.java" afterPath="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogRest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/service/SimpleLog/SimpleLogRestImpl.java" afterPath="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogRestImpl.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/service/SimpleLog/SimpleLogUtility.java" afterPath="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogUtility.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/service/UploadThread.java" afterPath="$PROJECT_DIR$/src/main/java/service/proxy/UploadThread.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/service/SimpleLog/ServerSimpleLogUploadServiceTest.java" afterPath="$PROJECT_DIR$/src/test/java/service/simplelog/ServerSimpleLogUploadServiceTest.java" />
+    <list default="true" id="fbc0e7eb-9a5b-478b-a09d-c68b1da061c8" name="Default" comment="Improve code style">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/model/Log.java" afterPath="$PROJECT_DIR$/src/main/java/model/Log.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/model/SimpleLog.java" afterPath="$PROJECT_DIR$/src/main/java/model/SimpleLog.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/service/log/LogRestImpl.java" afterPath="$PROJECT_DIR$/src/main/java/service/log/LogRestImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogConverter.java" afterPath="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogConverter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogUtility.java" afterPath="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogUtility.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/service/LogRestImplTest.java" afterPath="$PROJECT_DIR$/src/test/java/service/LogRestImplTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/service/ServerLogUploadTest.java" afterPath="$PROJECT_DIR$/src/test/java/service/ServerLogUploadTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/service/SimpleLogRestImplTest.java" afterPath="$PROJECT_DIR$/src/test/java/service/SimpleLogRestImplTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/service/UploadThreadTest.java" afterPath="$PROJECT_DIR$/src/test/java/service/UploadThreadTest.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -45,11 +28,55 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ServerLogUploadService.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/service/log/ServerLogUploadService.java">
+      <file leaf-file-name="SimpleLogConverter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogConverter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="30" column="42" lean-forward="true" selection-start-line="30" selection-start-column="42" selection-end-line="30" selection-end-column="42" />
+            <state relative-caret-position="387">
+              <caret line="57" column="17" lean-forward="false" selection-start-line="57" selection-start-column="17" selection-end-line="57" selection-end-column="17" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ServerSimpleLogUploadServiceTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/service/simplelog/ServerSimpleLogUploadServiceTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="15" column="25" lean-forward="false" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ServerSimpleLogUploadService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/service/simplelog/ServerSimpleLogUploadService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="396">
+              <caret line="35" column="37" lean-forward="true" selection-start-line="35" selection-start-column="37" selection-end-line="35" selection-end-column="37" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Log.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/model/Log.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="234">
+              <caret line="67" column="8" lean-forward="false" selection-start-line="67" selection-start-column="8" selection-end-line="67" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LogRestImpl.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/service/log/LogRestImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="299">
+              <caret line="80" column="0" lean-forward="true" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -119,26 +146,26 @@
         <option value="$PROJECT_DIR$/src/main/java/service/SimpleLog/SimpleLogUtility.java" />
         <option value="$PROJECT_DIR$/src/main/java/service/SimpleLog/SimpleLogRestImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/service/SimpleLog/SimpleLogConverter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/model/Log.java" />
         <option value="$PROJECT_DIR$/src/main/java/service/proxy/UploadThread.java" />
         <option value="$PROJECT_DIR$/src/test/java/service/SimpleLog/ServerSimpleLogUploadServiceTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/service/ServerSimpleLogUploadServiceTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/service/SimpleLogRestImplTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogConverter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/service/simplelog/ServerSimpleLogUploadService.java" />
         <option value="$PROJECT_DIR$/src/main/java/service/log/LogRestFactory.java" />
         <option value="$PROJECT_DIR$/src/main/java/service/log/LogRest.java" />
         <option value="$PROJECT_DIR$/src/main/java/service/proxy/ClientTask.java" />
         <option value="$PROJECT_DIR$/src/test/java/service/ServerLogUploadTest.java" />
         <option value="$PROJECT_DIR$/src/test/java/service/simplelog/ServerSimpleLogUploadServiceTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/service/log/LogUtility.java" />
-        <option value="$PROJECT_DIR$/src/main/java/service/log/LogRestImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogRest.java" />
         <option value="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogFactory.java" />
         <option value="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogRestImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/service/log/ServerLogUploadService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogUtility.java" />
+        <option value="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogConverter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/model/Log.java" />
         <option value="$PROJECT_DIR$/src/test/java/service/LogRestImplTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogUtility.java" />
+        <option value="$PROJECT_DIR$/src/main/java/service/simplelog/ServerSimpleLogUploadService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/service/log/LogRestImpl.java" />
       </list>
     </option>
   </component>
@@ -322,14 +349,14 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.ServerSimpleLogUploadServiceTest.convertLogs">
-    <configuration name="ServerSimpleLogUploadServiceTest.convertLogs" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.LogRestImplTest.getLog">
+    <configuration name="LogRestImplTest.getLog" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="serverlogindexer" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="service.simplelog" />
-      <option name="MAIN_CLASS_NAME" value="service.simplelog.ServerSimpleLogUploadServiceTest" />
-      <option name="METHOD_NAME" value="convertLogs" />
+      <option name="PACKAGE_NAME" value="service" />
+      <option name="MAIN_CLASS_NAME" value="service.LogRestImplTest" />
+      <option name="METHOD_NAME" value="getLog" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -342,13 +369,13 @@
       <envs />
       <patterns />
     </configuration>
-    <configuration name="ServerSimpleLogUploadServiceTest.updateTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ServerSimpleLogUploadServiceTest.convertLogs" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="serverlogindexer" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="service.simplelog" />
       <option name="MAIN_CLASS_NAME" value="service.simplelog.ServerSimpleLogUploadServiceTest" />
-      <option name="METHOD_NAME" value="updateTest" />
+      <option name="METHOD_NAME" value="convertLogs" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -477,15 +504,15 @@
       <item index="1" class="java.lang.String" itemvalue="JUnit.SimpleLogRestImplTest.createIndex" />
       <item index="2" class="java.lang.String" itemvalue="JUnit.ServerSimpleLogUploadServiceTest.uploadLocalFile" />
       <item index="3" class="java.lang.String" itemvalue="JUnit.ServerSimpleLogUploadServiceTest.convertLogs" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.ServerSimpleLogUploadServiceTest.updateTest" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.LogRestImplTest.getLog" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.ServerSimpleLogUploadServiceTest.convertLogs" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.ServerSimpleLogUploadServiceTest.uploadLocalFile" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.SimpleLogRestImplTest.createIndex" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.SimpleLogRestImplTest.removeIndex" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.ServerSimpleLogUploadServiceTest.updateTest" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.LogRestImplTest.getLog" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.ServerSimpleLogUploadServiceTest.convertLogs" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.ServerSimpleLogUploadServiceTest.uploadLocalFile" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.SimpleLogRestImplTest.createIndex" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.SimpleLogRestImplTest.removeIndex" />
       </list>
     </recent_temporary>
   </component>
@@ -542,38 +569,45 @@
       <option name="project" value="LOCAL" />
       <updated>1502868036498</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Improve code style">
+      <created>1502888053614</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1502888053614</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="ServerSimpleLogUploadServiceTest_convertLogs - 2017.08.16 at 12h 13m 07s.xml">
+    <history-entry file="LogRestImplTest_getLog - 2017.08.16 at 15h 26m 12s.xml">
+      <configuration name="LogRestImplTest.getLog" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="LogRestImplTest_getLog - 2017.08.16 at 15h 29m 28s.xml">
+      <configuration name="LogRestImplTest.getLog" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="LogRestImplTest_getLog - 2017.08.16 at 15h 30m 23s.xml">
+      <configuration name="LogRestImplTest.getLog" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ServerSimpleLogUploadServiceTest_convertLogs - 2017.08.16 at 15h 14m 26s.xml">
       <configuration name="ServerSimpleLogUploadServiceTest.convertLogs" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ServerSimpleLogUploadServiceTest_convertLogs - 2017.08.16 at 12h 58m 35s.xml">
+    <history-entry file="ServerSimpleLogUploadServiceTest_convertLogs - 2017.08.16 at 15h 21m 26s.xml">
       <configuration name="ServerSimpleLogUploadServiceTest.convertLogs" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ServerSimpleLogUploadServiceTest_convertLogs - 2017.08.16 at 13h 05m 46s.xml">
-      <configuration name="ServerSimpleLogUploadServiceTest.convertLogs" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ServerSimpleLogUploadServiceTest_uploadLocalFile - 2017.08.16 at 12h 11m 30s.xml">
+    <history-entry file="ServerSimpleLogUploadServiceTest_uploadLocalFile - 2017.08.16 at 15h 12m 48s.xml">
       <configuration name="ServerSimpleLogUploadServiceTest.uploadLocalFile" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ServerSimpleLogUploadServiceTest_uploadLocalFile - 2017.08.16 at 12h 27m 46s.xml">
+    <history-entry file="ServerSimpleLogUploadServiceTest_uploadLocalFile - 2017.08.16 at 15h 19m 31s.xml">
       <configuration name="ServerSimpleLogUploadServiceTest.uploadLocalFile" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ServerSimpleLogUploadServiceTest_uploadLocalFile - 2017.08.16 at 13h 02m 54s.xml">
-      <configuration name="ServerSimpleLogUploadServiceTest.uploadLocalFile" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SimpleLogRestImplTest_createIndex - 2017.08.16 at 12h 26m 19s.xml">
+    <history-entry file="SimpleLogRestImplTest_createIndex - 2017.08.16 at 15h 11m 13s.xml">
       <configuration name="SimpleLogRestImplTest.createIndex" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SimpleLogRestImplTest_createIndex - 2017.08.16 at 13h 01m 26s.xml">
+    <history-entry file="SimpleLogRestImplTest_createIndex - 2017.08.16 at 15h 17m 50s.xml">
       <configuration name="SimpleLogRestImplTest.createIndex" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SimpleLogRestImplTest_removeIndex - 2017.08.16 at 12h 26m 13s.xml">
-      <configuration name="SimpleLogRestImplTest.removeIndex" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SimpleLogRestImplTest_removeIndex - 2017.08.16 at 13h 01m 22s.xml">
+    <history-entry file="SimpleLogRestImplTest_removeIndex - 2017.08.16 at 15h 17m 43s.xml">
       <configuration name="SimpleLogRestImplTest.removeIndex" configurationId="JUnit" />
     </history-entry>
   </component>
@@ -627,7 +661,8 @@
     <MESSAGE value="UploadServer" />
     <MESSAGE value="SimpleLog" />
     <MESSAGE value="Iterator" />
-    <option name="LAST_COMMIT_MESSAGE" value="Iterator" />
+    <MESSAGE value="Improve code style" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improve code style" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -643,6 +678,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="353">
           <caret line="137" column="16" lean-forward="false" selection-start-line="137" selection-start-column="16" selection-end-line="137" selection-end-column="16" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -693,6 +729,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="197">
           <caret line="477" column="18" lean-forward="false" selection-start-line="477" selection-start-column="18" selection-end-line="477" selection-end-column="18" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -839,14 +876,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/model/Log.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-27">
-          <caret line="51" column="37" lean-forward="false" selection-start-line="51" selection-start-column="37" selection-end-line="51" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/service/JsonConstants.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="92">
@@ -859,34 +888,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-265">
           <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/service/SimpleLogRestImplTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="12" column="58" lean-forward="false" selection-start-line="12" selection-start-column="58" selection-end-line="12" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogConverter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1061">
-          <caret line="73" column="9" lean-forward="false" selection-start-line="73" selection-start-column="9" selection-end-line="73" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/service/simplelog/ServerSimpleLogUploadService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="14" column="36" lean-forward="false" selection-start-line="14" selection-start-column="36" selection-end-line="14" selection-end-column="36" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -940,24 +941,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/service/log/LogRest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="15" column="35" lean-forward="false" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogRest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -974,26 +957,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogUtility.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="721">
-          <caret line="44" column="12" lean-forward="false" selection-start-line="44" selection-start-column="12" selection-end-line="44" selection-end-column="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/service/LogRestImplTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="687">
-          <caret line="56" column="5" lean-forward="false" selection-start-line="56" selection-start-column="5" selection-end-line="56" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogRestImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
@@ -1001,14 +964,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/service/simplelog/ServerSimpleLogUploadServiceTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="9" column="58" lean-forward="false" selection-start-line="9" selection-start-column="58" selection-end-line="9" selection-end-column="58" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1020,18 +975,98 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/service/log/LogRestImpl.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/service/log/ServerLogUploadService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="124" column="5" lean-forward="true" selection-start-line="124" selection-start-column="5" selection-end-line="124" selection-end-column="5" />
+        <state relative-caret-position="-221">
+          <caret line="30" column="42" lean-forward="true" selection-start-line="30" selection-start-column="42" selection-end-line="30" selection-end-column="42" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/service/log/ServerLogUploadService.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="30" column="42" lean-forward="true" selection-start-line="30" selection-start-column="42" selection-end-line="30" selection-end-column="42" />
+        <state relative-caret-position="197">
+          <caret line="15" column="35" lean-forward="false" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/service/simplelog/ServerSimpleLogUploadServiceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="15" column="25" lean-forward="false" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogConverter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="387">
+          <caret line="57" column="17" lean-forward="false" selection-start-line="57" selection-start-column="17" selection-end-line="57" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/service/log/LogRest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="10" column="8" lean-forward="false" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/service/LogRestImplTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="25" column="15" lean-forward="false" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogUtility.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1177">
+          <caret line="57" column="51" lean-forward="false" selection-start-line="57" selection-start-column="51" selection-end-line="57" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/service/SimpleLogRestImplTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="15" column="22" lean-forward="false" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/service/simplelog/ServerSimpleLogUploadService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="35" column="37" lean-forward="true" selection-start-line="35" selection-start-column="37" selection-end-line="35" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/model/Log.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="67" column="8" lean-forward="false" selection-start-line="67" selection-start-column="8" selection-end-line="67" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/service/log/LogRestImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="80" column="0" lean-forward="true" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
           <folding />
         </state>
       </provider>

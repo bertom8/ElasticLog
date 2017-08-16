@@ -17,10 +17,20 @@ import java.util.List;
 import java.util.Locale;
 
 class SimpleLogUtility {
+
+    /**
+     * Pattern: yyyy-MM-dd HH:mm:ss,SSS
+     * Locale: English
+     */
     static final SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS",
             Locale.ENGLISH);
     private static final Gson gson = new GsonBuilder().setDateFormat(dateformat.toPattern()).create();
 
+    /**
+     * @param in InputStream that contains json
+     * @return List of SimpleLogItems
+     * @throws IOException Exception during reading
+     */
     static List<SimpleLogItem> readSimpleLogJsonStream(final InputStream in) throws IOException {
         final List<SimpleLogItem> list = new ArrayList<>();
         final JsonReader reader = new JsonReader(new InputStreamReader(in));
@@ -41,6 +51,12 @@ class SimpleLogUtility {
         return list;
     }
 
+    /**
+     * @param in       InputStream that contains json
+     * @param scrollId Outparameter for scrollid
+     * @return List of SimpleLogItems
+     * @throws IOException Exception during reading
+     */
     static List<SimpleLogItem> readSimpleLogJsonStream(final InputStream in, final StringBuilder scrollId)
             throws IOException {
         final List<SimpleLogItem> list = new ArrayList<>();

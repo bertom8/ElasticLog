@@ -23,7 +23,7 @@ public class LogRestImplTest {
 
     @Test
     public void getLog() throws Exception {
-        assertNotNull(logRest.getLog("AV29RSkijd91wETriiO_"));
+        assertNotNull(logRest.getLog("AV3rMZbzlBJfl2Q7U1u7"));
     }
 
     @Test

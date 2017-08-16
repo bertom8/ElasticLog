@@ -58,7 +58,7 @@ class SimpleLogConverter {
             try {
                 newlogItem.getLog().setDate(new Date(
                         SimpleLogUtility.dateformat
-                                .parse(splitedLine[0] + " " + splitedLine[1]).getTime() - 7200000));
+                                .parse(splitedLine[0] + " " + splitedLine[1]).getTime()));
             } catch (final ParseException e) {
                 logger.error(e.getMessage(), e);
             }
