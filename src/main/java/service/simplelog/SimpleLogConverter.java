@@ -11,8 +11,11 @@ import java.text.ParseException;
 import java.util.*;
 
 class SimpleLogConverter {
-    private final SimpleLogRest logRest;
     private static final Logger logger = LoggerFactory.getLogger(SimpleLogConverter.class);
+
+    public static final String PATTERN_MATCH_FOR_DATE = "\\d\\d\\d\\d\\-\\d\\d\\-\\d\\d\\ \\d\\d\\:\\d\\d\\:\\d\\d\\,\\d\\d\\d\\ .*";
+
+    private final SimpleLogRest logRest;
 
     SimpleLogConverter(String indexName, String typeName) {
         logRest = SimpleLogFactory.createLogRest(indexName, typeName);
@@ -26,8 +29,24 @@ class SimpleLogConverter {
         Iterator<SimpleLogItem> simpleLogIterator = logRest.getLogs(5000, scrollId);
         final List<String> callstack = new ArrayList<>();
         final List<String> documentIdsForDelete = new LinkedList<>();
-        LogItem log = null;
+
+        mergeLogs(simpleLogIterator, callstack, documentIdsForDelete);
+
+        deleteLogs(documentIdsForDelete);
+    }
+
+    private void deleteLogs(List<String> documentIdsForDelete) {
+        logger.info("Delete...");
+        for (final String aDocumentIdsForDelete : documentIdsForDelete) {
+            logRest.removeLog(aDocumentIdsForDelete);
+        }
+    }
+
+    private void mergeLogs(Iterator<SimpleLogItem> simpleLogIterator, List<String> callstack,
+                           List<String> documentIdsForDelete) {
         logger.info("Merge...");
+
+        LogItem log = null;
         while (simpleLogIterator.hasNext()) {
             final SimpleLogItem simpleLog = simpleLogIterator.next();
             LogItem newlog = merge(simpleLog, log, documentIdsForDelete, callstack);
@@ -36,21 +55,18 @@ class SimpleLogConverter {
             }
             log = newlog;
         }
-        logger.info("Delete...");
-        for (final String aDocumentIdsForDelete : documentIdsForDelete) {
-            logRest.removeLog(aDocumentIdsForDelete);
-        }
     }
 
     private LogItem merge(final SimpleLogItem simpleLog, LogItem previouslogItem,
                           final List<String> documentIdsForDelete, List<String> callstack) {
-        if (simpleLog.getLog().getResult()
-                .matches("\\d\\d\\d\\d\\-\\d\\d\\-\\d\\d\\ \\d\\d\\:\\d\\d\\:\\d\\d\\,\\d\\d\\d\\ .*")) {
+
+        if (simpleLog.getLog().getResult().matches(PATTERN_MATCH_FOR_DATE)) {
 
             if (previouslogItem != null) {
                 previouslogItem.getLog().setCallStack(callstack);
                 logRest.changeToLog(previouslogItem.getId(), previouslogItem.getLog());
             }
+
             Log log = new Log();
             LogItem newlogItem = new LogItem();
             newlogItem.setLog(log);

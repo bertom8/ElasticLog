@@ -2,12 +2,17 @@ package service.simplelog;
 
 import com.sun.istack.internal.NotNull;
 import model.SimpleLog;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ServerSimpleLogUploadService {
     private static final Logger logger = LoggerFactory.getLogger(ServerSimpleLogUploadService.class);
@@ -23,35 +28,27 @@ public class ServerSimpleLogUploadService {
             logger.error("Path is empty");
             throw new IllegalArgumentException("Path is empty!");
         }
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new InputStreamReader(
-                    new FileInputStream(new File(pathToFile)), StandardCharsets.UTF_8));
-            read(reader);
-            System.out.println("Upload finished!");
+
+        try (InputStream stream = new FileInputStream(new File(pathToFile))) {
+
+            List<SimpleLog> logs = IOUtils.readLines(stream, "UTF8")
+                    .stream()
+                    .filter(line -> !line.isEmpty())
+                    .map(this::parseLine)
+                    .collect(Collectors.toList());
+
+            imp.addLogs(logs);
+
         } catch (final IOException e) {
             logger.error(e.getMessage(), e);
-        } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (final IOException e) {
-                logger.error(e.getMessage(), e);
-            }
         }
     }
 
-    private void read(final BufferedReader reader) throws IOException {
-        String line;
-        SimpleLog log = null;
-        while ((line = reader.readLine()) != null) {
-            log = new SimpleLog();
-            if (!line.isEmpty()) {
-                log.setResult(line);
-                log.setDate(new Date());
-                imp.addLog(log);
-            }
-        }
+    private SimpleLog parseLine(String line) {
+        SimpleLog log = new SimpleLog();
+        log.setResult(line);
+        log.setDate(new Date());
+
+        return log;
     }
 }

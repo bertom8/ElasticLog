@@ -16,8 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServerLogUploadService {
-    private final LogRest imp;
     private static final Logger logger = LoggerFactory.getLogger(ServerLogUploadService.class);
+
+    private final LogRest imp;
 
     public ServerLogUploadService(String indexName, String typeName) {
         imp = LogRestFactory.createLogRest(indexName, typeName);

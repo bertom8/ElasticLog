@@ -22,12 +22,12 @@ import java.util.Properties;
 
 
 public class LogRestImpl implements LogRest {
-    private static RestClient restClient = null;
+
+    private final Logger logger = LoggerFactory.getLogger(LogRestImpl.class);
+    private RestClient restClient;
     private final Header header = new BasicHeader(HttpHeaders.CONTENT_TYPE, "application/json");
     private final String endPoint;
     private final String indexName;
-
-    private final Logger logger = LoggerFactory.getLogger(LogRestImpl.class);
 
     LogRestImpl(@NotNull final String indexName, @NotNull final String typeName) {
         this.indexName = indexName;
@@ -39,9 +39,10 @@ public class LogRestImpl implements LogRest {
         final Properties properties = new Properties();
         try {
             properties.load(new FileInputStream("config.properties"));
+            System.setProperties(properties);
             restClient = RestClient.builder(
-                    new HttpHost(properties.getProperty("host"), Integer.valueOf(properties.getProperty("port")),
-                            properties.getProperty("sheme"))).build();
+                    new HttpHost(System.getProperty("host"), Integer.valueOf(System.getProperty("port")),
+                            System.getProperty("scheme"))).build();
         } catch (final IOException e) {
             logger.error(e.getMessage(), e);
         }

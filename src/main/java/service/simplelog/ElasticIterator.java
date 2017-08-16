@@ -10,12 +10,12 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ElasticIterator implements Iterator {
+    private static final Logger logger = LoggerFactory.getLogger(ElasticIterator.class);
+
     private final SimpleLogRest logRest;
+    private final String scrollId;
     private List<SimpleLogItem> list;
     private int current = 0;
-    private final String scrollId;
-
-    private final Logger logger = LoggerFactory.getLogger(ElasticIterator.class);
 
     ElasticIterator(SimpleLogRest logRest, final List<SimpleLogItem> list, String scrollId) {
         this.logRest = logRest;
