@@ -1,23 +1,23 @@
 package service.SimpleLog;
 
+import model.Log;
 import model.LogItem;
 import model.SimpleLogItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SimpleLogConverter {
+class SimpleLogConverter {
     private final SimpleLogRest logRest = SimpleLogFactory.createLogRest(true);
     private static final Logger logger = LoggerFactory.getLogger(SimpleLogConverter.class);
 
-    public void convertLogs() throws IOException {
+    void convertLogs() throws IOException {
         if (!logRest.modifyIndexMappingforLog()) {
             return;
         }
@@ -27,62 +27,54 @@ public class SimpleLogConverter {
         final List<String> callstack = new ArrayList<>();
         final List<String> documentIdsForDelete = new LinkedList<>();
         final LogItem log = null;
-        //int i = 0;
+        int i = 0;
         while (simpleLogIterator.hasNext()) {
             final SimpleLogItem simpleLog = simpleLogIterator.next();
-            //System.out.println(i++ + ". " + simpleLog.getLog());
-            read(simpleLog, log, documentIdsForDelete, callstack);
-        }
-        List<SimpleLogItem> items;
-        InputStream stream;
-        while (!(items = SimpleLogUtility.readSimpleLogJsonStream(
-                (stream = logRest.scrolling(20, scrollId.toString())), null)).isEmpty()) {
-            simpleLogIterator = items.iterator();
-            while (simpleLogIterator.hasNext()) {
-                final SimpleLogItem simpleLog = simpleLogIterator.next();
-                //System.out.println(i++ + ". " + simpleLog.getLog());
-                read(simpleLog, log, documentIdsForDelete, callstack);
-            }
-            stream.close();
-            for (final String aDocumentIdsForDelete : documentIdsForDelete) {
-                logRest.removeLog(aDocumentIdsForDelete);
+            System.out.println(i++ + ". " + simpleLog.getLog());
+            if (read(simpleLog, log, documentIdsForDelete, callstack)) {
+                callstack.clear();
             }
         }
+//        for (final String aDocumentIdsForDelete : documentIdsForDelete) {
+//            logRest.removeLog(aDocumentIdsForDelete);
+//        }
     }
 
-    private void read(final SimpleLogItem simpleLog, final LogItem log, final List<String> documentIdsForDelete,
-                      List<String> callstack) {
+    private boolean read(final SimpleLogItem simpleLog, LogItem logItem, final List<String> documentIdsForDelete,
+                         List<String> callstack) {
+        boolean hasChanged = false;
         //Stacktrace item
         if (simpleLog.getLog().getText()
                 .matches("\\d\\d\\d\\d\\-\\d\\d\\-\\d\\d\\ \\d\\d\\:\\d\\d\\:\\d\\d\\,\\d\\d\\d\\ .*")) {
 
-            if (log != null) {
-                log.getLog().setCallStack(callstack);
-                callstack = new ArrayList<>();
-                logRest.changeToLog(log.getId(), log.getLog());
+            if (logItem != null) {
+                logItem.getLog().setCallStack(callstack);
+                hasChanged = logRest.changeToLog(logItem.getId(), logItem.getLog());
             }
+            Log log = new Log();
+            logItem = new LogItem();
+            logItem.setLog(log);
             final String[] splitedLine = simpleLog.getLog().getText().split(" ");
             //log.setServerId(server);
             try {
-                assert log != null;
-                log.getLog().setDate(SimpleLogUtility.dateformat.parse(splitedLine[0] + " " + splitedLine[1]));
+                logItem.getLog().setDate(SimpleLogUtility.dateformat.parse(splitedLine[0] + " " + splitedLine[1]));
             } catch (final ParseException e) {
                 logger.error(e.getMessage(), e);
             }
-            log.getLog().setType(splitedLine[2]);
+            logItem.getLog().setType(splitedLine[2]);
             final StringBuilder result = new StringBuilder();
+
             for (int i = 3; i < splitedLine.length; i++) {
                 result.append(" ").append(splitedLine[i]);
             }
-            log.getLog().setResult(result.toString().trim());
-            log.setId(simpleLog.getId());
+            logItem.getLog().setResult(result.toString().trim());
+            logItem.setId(simpleLog.getId());
         }
-
         //callstack item
         else {
             callstack.add(simpleLog.getLog().getText());
             documentIdsForDelete.add(simpleLog.getId());
         }
-
+        return hasChanged;
     }
 }

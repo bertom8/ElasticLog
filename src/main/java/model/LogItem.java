@@ -1,7 +1,11 @@
 package model;
 
+import com.sun.istack.internal.NotNull;
+
 public class LogItem {
+    @NotNull
     private Log log;
+    @NotNull
     private String id;
 
     public Log getLog() {
@@ -31,10 +35,7 @@ public class LogItem {
 
         final LogItem logItem = (LogItem) o;
 
-        if (!log.equals(logItem.log)) {
-            return false;
-        }
-        return id.equals(logItem.id);
+        return log.equals(logItem.log) && id.equals(logItem.id);
     }
 
     @Override

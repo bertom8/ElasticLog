@@ -65,12 +65,12 @@ public class SimpleLogRestImpl implements SimpleLogRest {
         if (documentPerScroll > 10000 || documentPerScroll < 1) {
             throw new IllegalArgumentException("Wrong size!");
         }
-        try {
-            final InputStream stream = restClient.performRequest("GET",
-                    endPoint + "_search?scroll=20m", new HashMap<>(),
-                    EntityBuilder.create().setBinary(SimpleLogUtility.getSearchJSON(documentPerScroll).getBytes()).build(),
-                    header).getEntity().getContent();
-            return SimpleLogUtility.readSimpleLogJsonStream(stream, generatedScrollId).iterator();
+        try (InputStream stream = restClient.performRequest("GET",
+                endPoint + "_search?scroll=20m", new HashMap<>(),
+                EntityBuilder.create().setBinary(SimpleLogUtility.getSearchJSON(documentPerScroll).getBytes()).build(),
+                header).getEntity().getContent()) {
+            List<SimpleLogItem> list = SimpleLogUtility.readSimpleLogJsonStream(stream, generatedScrollId);
+            return new ElasticIterator(this, list, generatedScrollId.toString());
         } catch (final IOException e) {
             logger.error(e.getMessage(), e);
         }
@@ -108,7 +108,7 @@ public class SimpleLogRestImpl implements SimpleLogRest {
     public boolean changeToLog(final String id, final Log log) {
         //TODO: implement this
         try {
-            return restClient.performRequest("POST", endPoint + id, new HashMap<>(),
+            return restClient.performRequest("POST", endPoint + id + "/_update?pretty", new HashMap<>(),
                     EntityBuilder.create().setBinary(SimpleLogUtility.writeJsonStreamForUpdate(log).getBytes()).build(),
                     header)
                     .getStatusLine().getStatusCode() == HttpStatus.SC_OK;
@@ -156,8 +156,10 @@ public class SimpleLogRestImpl implements SimpleLogRest {
 
     @Override
     public List<SimpleLog> searchLog(final String filters) {
+        //TODO: implement this
         return null;
     }
+
 
     @Override
     public InputStream scrolling(final int scroll, final String scrollId) {

@@ -21,11 +21,7 @@ class SimpleLogUtility {
             Locale.ENGLISH);
     private static final Gson gson = new GsonBuilder().setDateFormat(dateformat.toPattern()).create();
 
-    /**
-     * @param in
-     * @return
-     * @throws IOException
-     */
+
     static List<SimpleLogItem> readSimpleLogJsonStream(final InputStream in) throws IOException {
         final List<SimpleLogItem> list = new ArrayList<>();
         final JsonReader reader = new JsonReader(new InputStreamReader(in));
@@ -46,12 +42,7 @@ class SimpleLogUtility {
         return list;
     }
 
-    /**
-     * @param in
-     * @param scrollId
-     * @return
-     * @throws IOException
-     */
+
     static List<SimpleLogItem> readSimpleLogJsonStream(final InputStream in, final StringBuilder scrollId) throws IOException {
         final List<SimpleLogItem> list = new ArrayList<>();
         final JsonReader reader = new JsonReader(new InputStreamReader(in));
@@ -77,11 +68,6 @@ class SimpleLogUtility {
         return list;
     }
 
-    /**
-     * @param reader
-     * @return
-     * @throws IOException
-     */
     private static SimpleLogItem readResponseForSimpleLogObject(final JsonReader reader) throws IOException {
         final SimpleLogItem item = new SimpleLogItem();
         //ID
@@ -117,9 +103,9 @@ class SimpleLogUtility {
     }
 
     static String writeJsonStreamForUpdate(final Log log) {
-        return "{" +
-                "\"doc\" : \n" +
-                gson.toJson(log, Log.class) +
+        return "{\n" +
+                "\"doc\" : " +
+                gson.toJson(log, Log.class) + "\n" +
                 "}";
     }
 

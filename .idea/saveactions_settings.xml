@@ -6,7 +6,6 @@
         <option value="activate" />
         <option value="organizeImports" />
         <option value="reformat" />
-        <option value="localCanBeFinal" />
         <option value="fieldCanBeFinal" />
         <option value="unnecessarySemicolon" />
         <option value="missingOverrideAnnotation" />

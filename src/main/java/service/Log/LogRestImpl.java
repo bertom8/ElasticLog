@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
@@ -69,9 +70,9 @@ public class LogRestImpl implements LogRest {
      */
     @Override
     public Log getLog(final String id) {
-        try {
-            final Log l = LogUtility.readLogJsonAsObjectStream(restClient.performRequest("GET",
-                    endPoint + id, header).getEntity().getContent());
+        try (InputStream stream = restClient.performRequest("GET",
+                endPoint + id, header).getEntity().getContent()) {
+            final Log l = LogUtility.readLogJsonAsObjectStream(stream);
             System.out.println(l);
             return l;
         } catch (final IOException e) {
@@ -85,9 +86,9 @@ public class LogRestImpl implements LogRest {
      */
     @Override
     public List<Log> getLogs() {
-        try {
-            return LogUtility.readLogJsonStream(restClient.performRequest("GET",
-                    "/" + indexName + "/" + "_search?pretty=true&q=*:*", header).getEntity().getContent());
+        try (InputStream stream = restClient.performRequest("GET",
+                "/" + indexName + "/" + "_search?pretty=true&q=*:*", header).getEntity().getContent()) {
+            return LogUtility.readLogJsonStream(stream);
         } catch (final IOException e) {
             logger.error(e.getMessage(), e);
         }
@@ -101,7 +102,7 @@ public class LogRestImpl implements LogRest {
     @Override
     public boolean addLog(final Log log) {
         try {
-            return restClient.performRequest("POST", endPoint, new HashMap<String, String>(),
+            return restClient.performRequest("POST", endPoint, new HashMap<>(),
                     EntityBuilder.create().setBinary(LogUtility.writeJsonStream(log)
                             .getBytes(StandardCharsets.UTF_8)).build(), header)
                     .getStatusLine().getStatusCode() == HttpStatus.SC_CREATED;
@@ -159,6 +160,7 @@ public class LogRestImpl implements LogRest {
      */
     @Override
     public List<Log> searchLog(final String filters) {
+        //TODO: implement this
         return null;
     }
 }
