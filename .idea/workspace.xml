@@ -6,15 +6,9 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbc0e7eb-9a5b-478b-a09d-c68b1da061c8" name="Default" comment="Improve code">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_9_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_9_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_9_0.xml" afterPath="" />
+    <list default="true" id="fbc0e7eb-9a5b-478b-a09d-c68b1da061c8" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/serverlogindexer.iml" afterPath="$PROJECT_DIR$/serverlogindexer.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/service/simplelog/ElasticIterator.java" afterPath="$PROJECT_DIR$/src/main/java/service/simplelog/ElasticIterator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogConverter.java" afterPath="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogConverter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/service/log/LogUtility.java" afterPath="$PROJECT_DIR$/src/main/java/service/log/LogUtility.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -108,7 +102,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/service/log/LogUtility.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="770">
-              <caret line="87" column="0" lean-forward="true" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+              <caret line="86" column="1" lean-forward="false" selection-start-line="86" selection-start-column="1" selection-end-line="86" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -204,10 +198,10 @@
         <option value="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogRestImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/service/log/LogRestImpl.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/service/log/LogUtility.java" />
         <option value="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogConverter.java" />
         <option value="$PROJECT_DIR$/src/main/java/service/simplelog/ElasticIterator.java" />
         <option value="$PROJECT_DIR$/src/main/java/service/simplelog/SimpleLogUtility.java" />
+        <option value="$PROJECT_DIR$/src/main/java/service/log/LogUtility.java" />
       </list>
     </option>
   </component>
@@ -656,7 +650,14 @@
       <option name="project" value="LOCAL" />
       <updated>1502894928182</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Improve code">
+      <created>1503315493605</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1503315493605</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1100,7 +1101,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/service/log/LogUtility.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="770">
-          <caret line="87" column="0" lean-forward="true" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+          <caret line="86" column="1" lean-forward="false" selection-start-line="86" selection-start-column="1" selection-end-line="86" selection-end-column="1" />
           <folding />
         </state>
       </provider>
