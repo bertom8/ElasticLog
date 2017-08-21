@@ -13,7 +13,8 @@ import java.util.*;
 class SimpleLogConverter {
     private static final Logger logger = LoggerFactory.getLogger(SimpleLogConverter.class);
 
-    public static final String PATTERN_MATCH_FOR_DATE = "\\d\\d\\d\\d\\-\\d\\d\\-\\d\\d\\ \\d\\d\\:\\d\\d\\:\\d\\d\\,\\d\\d\\d\\ .*";
+    public static final String PATTERN_MATCH_FOR_DATE = "\\d\\d\\d\\d\\-\\d\\d\\-\\d\\d\\ \\d\\d\\:\\d\\d\\:\\d\\d\\," +
+            "\\d\\d\\d\\ .*";
 
     private final SimpleLogRest logRest;
 

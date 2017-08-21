@@ -36,7 +36,6 @@ public class ElasticIterator implements Iterator {
     @Override
     public SimpleLogItem next() {
         if (!hasNext()) {
-
             return null;
         }
         return list.get(current++);
